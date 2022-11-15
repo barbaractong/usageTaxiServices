@@ -1,5 +1,11 @@
 # Usage of taxi services
 
+Instruction:
+
+- There are two kinds of codes. One is the consolidate information at the notebook and the other one is a python script for loading and extratig the json information.
+- The notebook usageTaxiServices has both information described before
+- To check all steps for the resolution, uses the Notebook.
+- In the notebook, it has a variable called TAXI_FILE_PATH. It depends on the FileExtration.load_compressed_file() method. If you want to load an specific version of the json file, it needs to change the TAXI_FILE_PATH value to the correct path.
 ## Task description
 
     Given a zip file that contains two weeks of card transactions data for taxi services, extract and process the data for exploratory analysis:
