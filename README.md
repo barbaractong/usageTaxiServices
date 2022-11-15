@@ -1,17 +1,5 @@
 # Usage of taxi services
 
-## Project's building options
-
-1. Docker
-
-    (WIP)
-
-2. Jupyter notebooks
-    
-    Dowload the HTML jupyter notebook.
-    
-
-
 ## Task description
 
     Given a zip file that contains two weeks of card transactions data for taxi services, extract and process the data for exploratory analysis:
@@ -42,4 +30,4 @@ Considerations made for the data pipeline's construction:
 
 ## Data analysis
 
-(WIP)
+The data analysis is avaliable in jupyter notebook at ./notebook.
