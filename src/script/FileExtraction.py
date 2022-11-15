@@ -6,31 +6,48 @@ from datetime import datetime
 
 
 class FileExtraction:
-    def __init__(self, origin_path):
-        self._origin_path = origin_path
+    def __init__(self, landing_path, raw_path):
+        self._landing_path = landing_path
+        self._raw_path = raw_path
+
+        self.date_now = datetime.now().strftime("%m%d%Y")
 
     @property
-    def origin_path(self):
-        return self._origin_path
+    def landing_path(self):
+        return self._landing_path
 
-    @origin_path.setter
-    def origin_path(self, path):
+    @landing_path.setter
+    def landing_path(self, path):
+        self._landing_path = self.validate_directory(path)
+
+    @property
+    def raw_path(self):
+        return self._raw_path
+
+    @raw_path.setter
+    def raw_path(self, path):
+        self._raw_path = self.validate_directory(path)
+
+    @staticmethod
+    def validate_directory(path):
         if os.path.isdir(path):
-            self._origin_path = path
+            return path
         else:
-            self._origin_path = None
             logging.error("Please use a valid file path.")
 
     def load_compressed_file(self):
-        files = [file for file in os.listdir(self._origin_path)
-                 if os.path.isfile(os.path.join(self._origin_path, file))]
+        files = [file for file in os.listdir(self._landing_path)
+                 if os.path.isfile(os.path.join(self._landing_path, file))]
 
         for file in files:
-            with ZipFile(os.path.join(self._origin_path, file)) as zip_file:
+            with ZipFile(os.path.join(self._landing_path, file)) as zip_file:
                 for zip_ in zip_file.namelist():
-                    if zip_.endswith('.json') and "__MACOSX" not in zip_:
-                        date_now = datetime.now().strftime("%m%d%Y")
-                        zip_file.extract(zip_, '../data/raw_file')
+                    origin_name = f"{self._raw_path}{zip_}"
+                    destine_name = f"{self._raw_path}{self.date_now}_{zip_}"
 
-                        os.rename(f"../data/raw_file/{zip_}", f"../data/raw_file/{date_now}_{zip_}")
+                    if zip_.endswith('.json') and "__MACOSX" not in zip_:
+                        zip_file.extract(zip_, self._raw_path)
+                        os.replace(origin_name, destine_name)
+
+
 
